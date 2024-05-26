@@ -1,0 +1,4 @@
+!/frontend/node_modules/
+/.venv/
+/backend/.venv/
+/frontend/node_modules/
