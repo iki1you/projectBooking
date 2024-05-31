@@ -21,6 +21,9 @@ const Home = () => {
         <>
           <span>You are logged in</span>
           <br />
+          <Link to="/addrestaurant">Add Restaurant</Link>
+          <br />
+          <Link to="/restaurants">Restaurants</Link>
           <br />
           <Link to="/dashboard">Dashboard</Link>
           <br />

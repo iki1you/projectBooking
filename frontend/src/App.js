@@ -4,7 +4,8 @@ import "./app.scss"
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import ProtectedRoute from "./utils/ProtectedRoute"
 import { AuthProvider } from './context/AuthContext'
-import {Dashboard, Home, Login, Register} from "./pages"
+import { AddRestaurant, Dashboard, Home, Login, Register } from "./pages"
+import UserRestaurants from "./pages/UserRestaurants"
 
 
 const App = () => {
@@ -22,6 +23,8 @@ const App = () => {
                             </ProtectedRoute>
                         } />
                         <Route path="/login" element={<Login />} />
+                        <Route path="/addrestaurant" element={<AddRestaurant />} />
+                        <Route path="/restaurants" element={<UserRestaurants />} />
                         <Route path="/register" element={<Register />} />
                         <Route path="/" exact element={<Home />} />
                     </Routes>
