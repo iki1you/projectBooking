@@ -10,7 +10,7 @@ export default AuthContext
 
 export const AuthProvider = ({ children }) => {
     const [authTokens, setAuthTokens] = useState(() => 
-        localStorage.getItem("authTokens") ? 
+        localStorage.getItem("authTokens") ?
         JSON.parse(localStorage.getItem("authTokens"))
         : null
     );
@@ -36,7 +36,6 @@ export const AuthProvider = ({ children }) => {
         })
         const data = await response.json()
         if (response.status === 200){
-            console.log(data)
             setAuthTokens(data)
             setUser(jwtDecode(data.access))
             localStorage.setItem("authTokens", JSON.stringify(data));
@@ -132,7 +131,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     useEffect(()=>{
-
+        console.log(authTokens)
         if (authTokens) {
             setUser(jwtDecode(authTokens.access))
         }

@@ -3,7 +3,7 @@ import React, {useContext} from 'react'
 import AuthContext from "../context/AuthContext"
 import { Link } from 'react-router-dom'
 
-const Home = () => {
+const Navigation = () => {
   const {user, logoutUser} = useContext(AuthContext)
   const token = localStorage.getItem("authTokens")
 
@@ -13,7 +13,7 @@ const Home = () => {
   }
 
   return (
-    <div className='Home'>
+    <div className='Navigation'>
       <h1>Homepage</h1>
       <p>This is the Homepage</p>
 
@@ -43,4 +43,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Navigation

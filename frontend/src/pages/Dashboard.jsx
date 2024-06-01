@@ -20,21 +20,21 @@ const Dashboard = () => {
   let full_name = decode.full_name
   
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await api.get("/test/")
-        setResponse(response.data.response)
-
-      } catch (error) {
-        console.log(error)
-        setResponse("Something Went Wrong")
-      }
-    }
-    
-    fetchData()
-    
-  }, [])
+  //useEffect(() => {
+  //  const fetchData = async () => {
+  //    try {
+  //      const response = await api.get("/test/")
+  //      setResponse(response.data.response)
+//
+  //    } catch (error) {
+  //      console.log(error)
+  //      setResponse("Something Went Wrong")
+  //    }
+  //  }
+  //
+  //  fetchData()
+  //
+  //}, [])
   
 
   return (

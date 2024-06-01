@@ -4,8 +4,7 @@ import "./app.scss"
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import ProtectedRoute from "./utils/ProtectedRoute"
 import { AuthProvider } from './context/AuthContext'
-import { AddRestaurant, Dashboard, Home, Login, Register } from "./pages"
-import UserRestaurants from "./pages/UserRestaurants"
+import { AddRestaurant, Dashboard, Navigation, Login, Register, UserRestaurants, Home } from "./pages"
 
 
 const App = () => {
@@ -14,6 +13,7 @@ const App = () => {
         <div className='container'>
             <Router>
                 <AuthProvider>
+                    <Navigation/>
                     <Routes>
                         <Route 
                         path="/dashboard"
@@ -22,11 +22,19 @@ const App = () => {
                                 <Dashboard />
                             </ProtectedRoute>
                         } />
+
+                        <Route
+                        path="/"
+                        element={
+                            <ProtectedRoute>
+                                <Home />
+                            </ProtectedRoute>
+                        } />
+
                         <Route path="/login" element={<Login />} />
                         <Route path="/addrestaurant" element={<AddRestaurant />} />
                         <Route path="/restaurants" element={<UserRestaurants />} />
                         <Route path="/register" element={<Register />} />
-                        <Route path="/" exact element={<Home />} />
                     </Routes>
                 </AuthProvider>
             </Router>
