@@ -59,7 +59,7 @@ const AddRestaurant = () => {
       try {
         const response = await api.post("/restaurant/", restaurant);
         setResponse(response.data.response);
-        navigate('/home')
+        navigate('/')
       } catch (error) {
         console.log(error);
         setResponse(error);

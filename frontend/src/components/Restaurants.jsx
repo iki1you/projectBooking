@@ -1,6 +1,6 @@
 import React from "react";
 
-function Restaurant({restaurants, loading}) {
+function Restaurants({restaurants, loading}) {
     if (loading) {
        return <h2>Loading...</h2>
     }
@@ -8,11 +8,10 @@ function Restaurant({restaurants, loading}) {
         {restaurants.length === 0 && <h2>Нет заведений</h2>}
         {restaurants.length !== 0 && restaurants.map((restaurant, i) => (
             <li key={i} className="list-group-item">
-                {restaurant.name}
-                {restaurant.owner}
+                <a href={"/restaurant/" + restaurant.id}>{restaurant.name}</a>
             </li>
           ))}
     </ul>);
 }
 
-export default Restaurant;
+export default Restaurants;

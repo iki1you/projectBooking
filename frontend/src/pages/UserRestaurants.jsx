@@ -1,7 +1,7 @@
 import React, {useState, useContext, useEffect} from 'react'
 import useAxios from "../utils/useAxios"
 import { jwtDecode } from 'jwt-decode'
-import Restaurant from "../components/Restaurant";
+import Restaurants from "../components/Restaurants";
 
 
 const UserRestaurants = () => {
@@ -33,7 +33,7 @@ const UserRestaurants = () => {
   return (
       <div className='dashboard'>
           <h1>Мои заведения:</h1>
-          <Restaurant restaurants={restaurants} loading={loading}/>
+          <Restaurants restaurants={restaurants} loading={loading}/>
       </div>
 )
 }

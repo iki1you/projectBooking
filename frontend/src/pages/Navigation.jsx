@@ -18,21 +18,20 @@ const Navigation = () => {
       <p>This is the Homepage</p>
 
       {user ?
+          <>
+            <br/>
+            <Link to="/">Home</Link>
+            <br/>
+            <Link to="/addrestaurant">Add Restaurant</Link>
+            <br/>
+            <Link to="/restaurants">Restaurants</Link>
+            <br/>
+            <Link to="/dashboard">Dashboard</Link>
+            <br/>
+            <Link onClick={logoutUser}>Logout</Link>
+          </>
+          :
         <>
-          <span>You are logged in</span>
-          <br />
-          <Link to="/addrestaurant">Add Restaurant</Link>
-          <br />
-          <Link to="/restaurants">Restaurants</Link>
-          <br />
-          <Link to="/dashboard">Dashboard</Link>
-          <br />
-          <Link onClick={logoutUser}>Logout</Link>
-        </>
-      :
-        <>
-          <span>You are not logged in</span>
-          <br />
           <br />
           <Link to="/login">Login</Link>
           <br />
