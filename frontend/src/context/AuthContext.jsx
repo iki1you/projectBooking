@@ -131,7 +131,6 @@ export const AuthProvider = ({ children }) => {
     }
 
     useEffect(()=>{
-        console.log(authTokens)
         if (authTokens) {
             setUser(jwtDecode(authTokens.access))
         }

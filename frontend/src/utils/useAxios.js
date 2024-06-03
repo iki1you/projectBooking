@@ -24,12 +24,12 @@ const useAxios = () => {
             const response = await axios.post(`${baseURL}api/token/refresh/`, {
                 refresh: authTokens.refresh
             });
-            console.log(user)
+
             let tokens = {
                 refresh: authTokens.refresh,
                 access: response.data.access
             }
-            console.log(tokens)
+
             localStorage.setItem("authTokens", JSON.stringify(tokens));
             setAuthTokens(tokens);
             setUser(jwtDecode(tokens.access));
