@@ -5,7 +5,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  display: flex;
+  display: block;
   align-items: center;
   justify-content: center;
   opacity: 0;
@@ -20,16 +20,21 @@
 }
 
 .modal-menu__content {
-  margin-top: 500px;
+  margin-left: 25vw;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   padding: 20px;
   border-radius: 12px;
   background-color: white;
   transform: scale(0.5);
   transition: 0.4s all;
   width: 50vw;
+
 }
 
 .modal-menu__content.active {
+
   transform: scale(1);
 }
 

@@ -23,6 +23,7 @@ function Restaurant()  {
     const [menu, setMenu] = useState({});
 
     const [modalMenuDeleteActive, setModalMenuDeleteActive] = useState(false);
+    const [menuArrayId, setMenuArrayId] = useState(0);
 
     const getMenus = async () => {
         const response = await api.get("/restaurant/" + restaurantId + "/menu/");
@@ -107,10 +108,11 @@ function Restaurant()  {
         });
     }
 
-    const handleMenuOpen = (e, menu) => {
+    const handleMenuOpen = (e, menu, menuId) => {
          e.preventDefault();
          setModalMenuActive(true);
          setMenu(menu);
+         setMenuArrayId(menuId);
     }
 
     const handleMenuDeleteOpen = (e, menu) => {
@@ -131,7 +133,7 @@ function Restaurant()  {
                 <p>address: {restaurant.address}</p>
                 <p>owner: {restaurant.owner}</p>
                 <p>rating: {restaurant.rating}{!restaurant.rating && <>null</>}</p>
-                {menus.map((menu, i) => (<div>
+                {menus.map((menu, i) => (<div key={menu.id}>
                     <button className='menu-open-btn' onClick={(e) => handleMenuOpen(e, menu)}>{menu.name}</button>
                 </div>))}
             </div>
@@ -154,15 +156,24 @@ function Restaurant()  {
                         <p>rating: {restaurant.rating}{!restaurant.rating && <>null</>}</p>
                         <button type='submit'>Сохранить</button>
                      </form>
-                    {menus.map((menu, i) => (<div>
-                        <button className='menu-open-btn' onClick={(e) => handleMenuOpen(e, menu)}>{menu.name}</button>
+                    {menus.map((menu, i) => (<div key={menu.id}>
+                        <button className='menu-open-btn' onClick={(e) => handleMenuOpen(e, menu, i)}>{menu.name}</button>
                         <button className='menu-delete-btn' onClick={(e) => handleMenuDeleteOpen(e, menu)}>удалить</button>
                     </div>)
                     )}
                     <button onClick={handleAddMenu}>Добавить меню</button>
                 </div>
             }
-            <Menu active={modalMenuActive} setActive={setModalMenuActive} menu={menu}/>
+
+            <Menu active={modalMenuActive}
+                  setActive={setModalMenuActive}
+                  menu={menu}
+                  owner={restaurant.owner}
+                  restaurantId={restaurantId}
+                  menuArrayId={menuArrayId}
+                  setMenus={setMenus}
+            />
+
             <MenuDelete active={modalMenuDeleteActive}
                         setActive={setModalMenuDeleteActive}
                         menu={menu}
