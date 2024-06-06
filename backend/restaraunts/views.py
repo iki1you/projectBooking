@@ -251,6 +251,7 @@ class BookingViewSet(viewsets.ViewSet, pagination.PageNumberPagination):
 
         orderby = self.request.query_params.get('orderby')
         status = self.request.query_params.get('status')
+        print(status)
         if status is not None:
             if status == 'Подтверждено':
                 queryset = queryset.filter(status='Подтверждено')

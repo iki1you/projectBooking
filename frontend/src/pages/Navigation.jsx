@@ -26,14 +26,18 @@ const Navigation = () => {
             <br/>
             <Link to="/restaurants">Restaurants</Link>
             <br/>
+            <Link to="/userbookings">Bookings</Link>
+            <br/>
             <Link to="/dashboard">Dashboard</Link>
             <br/>
             <Link onClick={logoutUser}>Logout</Link>
+
+
           </>
           :
-        <>
-          <br />
-          <Link to="/login">Login</Link>
+          <>
+            <br/>
+            <Link to="/login">Login</Link>
           <br />
           <Link to="/register">Register</Link>
         </>

@@ -140,6 +140,7 @@ function Restaurant()  {
             }
 
             {restaurant.owner === decode.user_id && <div>
+                <h2><a href={"/restaurant/" + restaurantId + "/bookings"} className="booking-href">Брони:</a></h2>
                     <form onSubmit={handleSubmit}>
                         <p><label>name: </label>
                         <input value={name}

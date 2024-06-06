@@ -38,6 +38,7 @@ const Home = () => {
       });
   }, []);
 
+
   const previousOnClick = () => {
       if (previous) {
           setCurrentNumber(currentNumber - 1);
