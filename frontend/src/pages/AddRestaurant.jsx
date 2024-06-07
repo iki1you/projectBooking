@@ -70,65 +70,73 @@ const AddRestaurant = () => {
   return (
       <div className='dashboard'>
           <form onSubmit={handleSubmit}>
-
-              <label>Name:</label>
-              <input
-                  type="name"
-                  name="name"
-                  required/>
-
-              <label>Address:</label>
-              <input
-                  type="address"
-                  name="address"
-                  required/>
-
-              <label>Phone:</label>
-              <input
-                  type="phone"
-                  name="phone"
-                  required/>
-
-              <label>Site:</label>
-              <input
-                  type="site"
-                  name="site"
-                  required/>
-
-              <label>Description:</label>
-              <input
-                  type="description"
-                  name="description"
-                  required/>
-
-              <label>Schedule:</label>
-              <input
-                  type="schedule"
-                  name="schedule"
-                  required/>
-
-              <label>CapacityOnTable:</label>
-              <input
-                  type="number"
-                  name="capacityOnTable"
-                  required/>
-
-              <label>Logo:</label>
-              <input
-                  type="logo"
-                  name="logo"
+              <p>
+                  <label>Name:</label>
+                  <input
+                      type="name"
+                      name="name"
+                      required/>
+              </p>
+              <p>
+                  <label>Address:</label>
+                  <input
+                      type="address"
+                      name="address"
+                      required/>
+              </p>
+              <p>
+                  <label>Phone:</label>
+                  <input
+                      type="phone"
+                      name="phone"
+                      required/>
+              </p>
+              <p>
+                  <label>Site:</label>
+                  <input
+                      type="site"
+                      name="site"
+                      required/>
+              </p>
+              <p>
+                  <label>Description:</label>
+                  <input
+                      type="description"
+                      name="description"
+                      required/>
+              </p>
+              <p>
+                  <label>Schedule:</label>
+                  <input
+                      type="schedule"
+                      name="schedule"
+                      required/>
+              </p>
+              <p>
+                  <label>CapacityOnTable:</label>
+                  <input
+                      type="number"
+                      name="capacityOnTable"
+                      required/>
+              </p>
+              <p>
+                  <label>Logo:</label>
+                  <input
+                      type="logo"
+                      name="logo"
                   />
-
-              <label>Preview:</label>
-              <input
-                  type="preview"
-                  name="preview"
+              </p>
+              <p>
+                  <label>Preview:</label>
+                  <input
+                      type="preview"
+                      name="preview"
                   />
+              </p>
 
-
-              <div className='btn-container'>
-                  <button type='submit'>Добавить ресторан</button>
-              </div>
+                  <div className='btn-container'>
+                      <button type='submit'>Добавить ресторан</button>
+                  </div>
           </form>
       </div>
   )

@@ -87,8 +87,11 @@ const RestaurantBookings = () => {
       };
 
       acceptBooking().then(() => getRestaurants(current)).catch((error) => {
-           console.log(error);
-           setResponse(error);
+          setCurrentNumber(1);
+            setCurrent("/restaurant/" + restaurantId + '/booking/?status=' + e.target.value + '&page=1');
+            getRestaurants("/restaurant/" + restaurantId + '/booking/?status=' + e.target.value + '&page=1').catch((error) => {console.log(error);
+           setResponse(error);})
+
       });
   }
 
@@ -101,8 +104,10 @@ const RestaurantBookings = () => {
       };
 
       acceptBooking().then(() => getRestaurants(current)).catch((error) => {
-           console.log(error);
-           setResponse(error);
+          setCurrentNumber(1);
+          setCurrent("/restaurant/" + restaurantId + '/booking/?status=' + e.target.value + '&page=1');
+            getRestaurants("/restaurant/" + restaurantId + '/booking/?status=' + e.target.value + '&page=1').catch((error) => {console.log(error);
+           setResponse(error);})
       });
   }
 

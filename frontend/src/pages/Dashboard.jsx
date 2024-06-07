@@ -22,22 +22,22 @@ const Dashboard = () => {
   let username = decode.username;
   let email = decode.email;
   let full_name = decode.full_name;
-  let avatar = decode.avatar;
   
 
   useEffect(() => {
       const getAvatar = async () => {
         const response = await api.get("/user/" + user_id + "/");
         setResponse(response.data.response);
-        setAvatarURL(response.data.avatar);
+
+        if (response.data.avatar) {
+            setAvatarURL(response.data.avatar);
+        }
       };
-      if (avatar !== "") {
-          getAvatar().catch((error) => {
+      getAvatar().catch((error) => {
              console.log(error);
              setAvatarURL(DefaultImage);
              setResponse(error);
         });
-      }
   }, [])
 
   const handleImageUpload = (e) => {

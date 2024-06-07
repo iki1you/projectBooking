@@ -1,9 +1,11 @@
 import {useParams} from "react-router-dom";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import useAxios from "../utils/useAxios";
 import {jwtDecode} from "jwt-decode";
 import Menu from "../components/Menu";
 import MenuDelete from "../components/MenuDelete";
+import DefaultImage from "../assets/default-picture.png";
+import Booking from "../components/Booking";
 
 function Restaurant()  {
     let { restaurantId } = useParams();
@@ -20,10 +22,16 @@ function Restaurant()  {
 
     const [menus, setMenus] = useState([]);
     const [modalMenuActive, setModalMenuActive] = useState(false);
+    const [modalBookingActive, setModalBookingActive] = useState(false);
     const [menu, setMenu] = useState({});
 
     const [modalMenuDeleteActive, setModalMenuDeleteActive] = useState(false);
     const [menuArrayId, setMenuArrayId] = useState(0);
+
+    const [avatarURL, setAvatarURL] = useState(DefaultImage);
+    const fileUploadRef = useRef(null);
+
+    const [notification, setNotification] = useState('');
 
     const getMenus = async () => {
         const response = await api.get("/restaurant/" + restaurantId + "/menu/");
@@ -73,6 +81,10 @@ function Restaurant()  {
             setAddress(response.data.address);
             setResponse(response.data.response);
             setRestaurant(response.data);
+
+            if (response.data.preview) {
+                setAvatarURL(response.data.preview)
+            }
         };
 
         getRestaurants().catch((error) => {
@@ -85,6 +97,9 @@ function Restaurant()  {
              console.log(error);
              setResponse(error);
         });
+
+
+
     }, []);
 
     const handleAddMenu = (e) => {
@@ -121,6 +136,38 @@ function Restaurant()  {
          setMenu(menu);
     }
 
+     const handleBookingOpen = (e) => {
+         e.preventDefault();
+         setModalBookingActive(true);
+    }
+
+    const handleImageUpload = (e) => {
+    e.preventDefault();
+    fileUploadRef.current.click();
+  }
+
+  const uploadImageDisplay = async () => {
+    try {
+      const uploadedFile = fileUploadRef.current.files[0];
+
+      const formData = new FormData();
+      formData.append("preview", uploadedFile);
+
+      const uploadImage = async () => {
+        const response = await api.patch("/restaurant/" + restaurantId + "/", formData);
+        setResponse(response.data.response);
+        setAvatarURL(response.data.preview);
+      };
+
+      await uploadImage();
+
+
+    } catch(error) {
+      console.error(error);
+      setAvatarURL(DefaultImage);
+    }
+  }
+
 
     if (loading) {
        return <h2>Loading...</h2>
@@ -128,10 +175,12 @@ function Restaurant()  {
     return (
         <div>
             <h1>Restaurant</h1>
-            {restaurant.owner !== decode.user_id && <div><h2>{restaurantId}</h2>
+            {restaurant.owner !== decode.user_id && <div>
+                <img src={avatarURL} alt="Avatar" className="h-96 w-96 rounded-full" width="200" height="200"/>
+                <p><button className='booking-open-btn' onClick={(e) => handleBookingOpen(e)}>Забронировать</button></p>
+                {notification}
                 <p>name: {restaurant.name}</p>
                 <p>address: {restaurant.address}</p>
-                <p>owner: {restaurant.owner}</p>
                 <p>rating: {restaurant.rating}{!restaurant.rating && <>null</>}</p>
                 {menus.map((menu, i) => (<div key={menu.id}>
                     <button className='menu-open-btn' onClick={(e) => handleMenuOpen(e, menu)}>{menu.name}</button>
@@ -141,29 +190,35 @@ function Restaurant()  {
 
             {restaurant.owner === decode.user_id && <div>
                 <h2><a href={"/restaurant/" + restaurantId + "/bookings"} className="booking-href">Брони:</a></h2>
-                    <form onSubmit={handleSubmit}>
-                        <p><label>name: </label>
+                <img src={avatarURL} alt="Avatar" className="h-96 w-96 rounded-full" width="200" height="200"/>
+                <form encType='multipart/form-data'>
+                    <button type='submit' onClick={handleImageUpload}>
+                        Загрузить
+                    </button>
+                    <input type="file" id="file" ref={fileUploadRef} onChange={uploadImageDisplay} hidden/>
+                </form>
+                <form onSubmit={handleSubmit}>
+                    <p><label>name: </label>
                         <input value={name}
                                onChange={e => setName(e.target.value)}
                                type="name"
                                name="name"/></p>
 
-                        <p><label>address: </label>
-                            <input value={address}
+                    <p><label>address: </label>
+                        <input value={address}
                                onChange={e => setAddress(e.target.value)}
                                type="address"
-                                   name="address"/></p>
-                        <p>owner: {restaurant.owner}</p>
-                        <p>rating: {restaurant.rating}{!restaurant.rating && <>null</>}</p>
-                        <button type='submit'>Сохранить</button>
-                     </form>
-                    {menus.map((menu, i) => (<div key={menu.id}>
+                               name="address"/></p>
+                    <p>rating: {restaurant.rating}{!restaurant.rating && <>null</>}</p>
+                    <button type='submit'>Сохранить</button>
+                </form>
+                {menus.map((menu, i) => (<div key={menu.id}>
                         <button className='menu-open-btn' onClick={(e) => handleMenuOpen(e, menu, i)}>{menu.name}</button>
                         <button className='menu-delete-btn' onClick={(e) => handleMenuDeleteOpen(e, menu)}>удалить</button>
                     </div>)
-                    )}
-                    <button onClick={handleAddMenu}>Добавить меню</button>
-                </div>
+                )}
+                <button onClick={handleAddMenu}>Добавить меню</button>
+            </div>
             }
 
             <Menu active={modalMenuActive}
@@ -180,6 +235,12 @@ function Restaurant()  {
                         menu={menu}
                         setMenus={setMenus}
                         restaurantId={restaurantId}
+            />
+            {console.log(modalBookingActive)}
+            <Booking active={modalBookingActive}
+                     setActive={setModalBookingActive}
+                     restaurant={restaurant}
+                     setNotification={setNotification}
             />
         </div>
     )
