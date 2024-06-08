@@ -14,8 +14,7 @@ const Navigation = () => {
 
   return (
     <div className='Navigation'>
-      <h1>Homepage</h1>
-      <p>This is the Homepage</p>
+      <h1>Бронирование ресторанов</h1>
 
       {user ?
           <>

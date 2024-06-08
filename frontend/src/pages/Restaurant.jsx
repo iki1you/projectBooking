@@ -6,6 +6,8 @@ import Menu from "../components/Menu";
 import MenuDelete from "../components/MenuDelete";
 import DefaultImage from "../assets/default-picture.png";
 import Booking from "../components/Booking";
+import RestaurantReviews from "../components/RestaurantReviews";
+import TagsMenu from "../components/TagsMenu";
 
 function Restaurant()  {
     let { restaurantId } = useParams();
@@ -33,18 +35,19 @@ function Restaurant()  {
 
     const [notification, setNotification] = useState('');
 
+    const [tags, setTags] = useState({});
+    const [active, setActive] = useState(false);
+
     const getMenus = async () => {
         const response = await api.get("/restaurant/" + restaurantId + "/menu/");
         setResponse(response.data.response);
         setLoading(false);
         setMenus(response.data);
-        console.log(response.data);
     };
 
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        // console.log(e.target)
 
         const name = e.target.name.value;
         const address = e.target.address.value;
@@ -81,7 +84,6 @@ function Restaurant()  {
             setAddress(response.data.address);
             setResponse(response.data.response);
             setRestaurant(response.data);
-
             if (response.data.preview) {
                 setAvatarURL(response.data.preview)
             }
@@ -96,10 +98,22 @@ function Restaurant()  {
         getMenus().catch((error) => {
              console.log(error);
              setResponse(error);
+             setLoading(false);
         });
 
+         const getRestaurantTags = async () => {
+            const response = await api.get("/restaurant/" + restaurantId + "/tag/");
+            setTags(response.data);
+        };
+
+         getRestaurantTags().catch((error) => {
+             console.log(error);
+             setResponse(error);
 
 
+        });
+
+        setLoading(false);
     }, []);
 
     const handleAddMenu = (e) => {
@@ -177,19 +191,40 @@ function Restaurant()  {
             <h1>Restaurant</h1>
             {restaurant.owner !== decode.user_id && <div>
                 <img src={avatarURL} alt="Avatar" className="h-96 w-96 rounded-full" width="200" height="200"/>
-                <p><button className='booking-open-btn' onClick={(e) => handleBookingOpen(e)}>Забронировать</button></p>
+                <p>
+                    <button className='booking-open-btn' onClick={(e) => handleBookingOpen(e)}>Забронировать</button>
+                </p>
                 {notification}
                 <p>name: {restaurant.name}</p>
                 <p>address: {restaurant.address}</p>
                 <p>rating: {restaurant.rating}{!restaurant.rating && <>null</>}</p>
+                <h3>Тэги:</h3>
+                <ul>
+                    {tags && Object.entries(tags).map((tagGroup) => (
+                        <li>
+                            <ul>
+                                <h3>{tagGroup[0]}</h3>
+                                {
+                                    tagGroup[1].map((tag) => (
+                                        <li key={tag.id}>
+                                            {tag.name}
+                                        </li>
+                                    ))
+                                }
+                            </ul>
+                        </li>
+                    ))}
+                </ul>
                 {menus.map((menu, i) => (<div key={menu.id}>
                     <button className='menu-open-btn' onClick={(e) => handleMenuOpen(e, menu)}>{menu.name}</button>
                 </div>))}
+                {restaurant.id && <RestaurantReviews restaurant={restaurant}/>}
             </div>
             }
 
             {restaurant.owner === decode.user_id && <div>
                 <h2><a href={"/restaurant/" + restaurantId + "/bookings"} className="booking-href">Брони:</a></h2>
+                <p><button onClick={(e) => setActive(true)}>Настроить теги</button></p>
                 <img src={avatarURL} alt="Avatar" className="h-96 w-96 rounded-full" width="200" height="200"/>
                 <form encType='multipart/form-data'>
                     <button type='submit' onClick={handleImageUpload}>
@@ -218,6 +253,7 @@ function Restaurant()  {
                     </div>)
                 )}
                 <button onClick={handleAddMenu}>Добавить меню</button>
+                {restaurant.id && <RestaurantReviews restaurant={restaurant}/>}
             </div>
             }
 
@@ -236,12 +272,13 @@ function Restaurant()  {
                         setMenus={setMenus}
                         restaurantId={restaurantId}
             />
-            {console.log(modalBookingActive)}
             <Booking active={modalBookingActive}
                      setActive={setModalBookingActive}
                      restaurant={restaurant}
                      setNotification={setNotification}
             />
+
+            <TagsMenu active={active} setActive={setActive} setTags={setTags} restaurant={restaurant} canEdit={true} />
         </div>
     )
 }

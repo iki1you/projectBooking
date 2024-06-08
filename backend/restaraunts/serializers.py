@@ -208,36 +208,29 @@ class EmployeeSerializer(serializers.ModelSerializer):
         read_only_fields = ['restaurant']
 
 
-class ReviewPhotosSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ReviewPhotos
-        fields = ['id', 'review', 'photo']
 
 
 class ReviewsSerializer(serializers.ModelSerializer):
-    images = serializers.SerializerMethodField(method_name='get_image_list')
-    uploaded_images = serializers.ListField(
-        child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
-        write_only=True, required=False)
     user_name = serializers.SerializerMethodField(method_name='get_user_name', read_only=True)
     user_reviews = serializers.SerializerMethodField(method_name='get_user_reviews', read_only=True)
+    user_avatar = serializers.SerializerMethodField(method_name='get_user_avatar', read_only=True)
 
     def create(self, validated_data):
         restaurant = self.context['restaurant']
         validated_data['restaurant'] = restaurant
-        uploaded_images = validated_data.pop("uploaded_images", [])
         review = Reviews.objects.create(**validated_data)
-        for image in uploaded_images:
-            ReviewPhotos.objects.create(review=review, photo=image)
 
         return review
 
-    def get_image_list(self, obj):
-        images = ['http://' + self.context['request'].META['HTTP_HOST'] + '/media/' + str(i) for i in ReviewPhotos.objects.filter(review=obj.id)]
-        return images
 
     def get_user_name(self, obj):
         return obj.user.full_name
+
+    def get_user_avatar(self, obj):
+        print(str(obj.user.avatar))
+        if not obj.user.avatar:
+            return ""
+        return 'http://' + self.context['request'].META['HTTP_HOST'] + '/media/' + str(obj.user.avatar)
 
     def get_user_reviews(self, obj):
         user = User.objects.get(pk=obj.user.id)
@@ -245,7 +238,8 @@ class ReviewsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Reviews
-        fields = ['id', 'user', 'user_name', 'user_reviews', 'restaurant', 'rating', 'text', 'time', 'images', 'uploaded_images']
+        fields = ['id', 'user', 'user_name', 'user_avatar', 'user_reviews', 'restaurant',
+                  'rating', 'text', 'time']
         read_only_fields = ['restaurant', 'user_reviews']
 
 

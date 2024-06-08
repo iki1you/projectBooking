@@ -500,7 +500,6 @@ class BookingRetrieveDeleteViewSet(viewsets.ViewSet):
 
 class ReviewsViewSet(viewsets.ViewSet, pagination.PageNumberPagination):
     serializer_class = ReviewsSerializer
-    parser_classes = (MultiPartParser, FormParser)
     permission_classes = []
 
     def get_queryset(self):

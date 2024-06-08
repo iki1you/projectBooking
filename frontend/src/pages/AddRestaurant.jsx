@@ -30,7 +30,7 @@ const AddRestaurant = () => {
 
   const handleSubmit = async (e) => {
       e.preventDefault()
-      console.log(e.target.address.value)
+      console.log(e.target.name.value)
       const name = e.target.name.value;
       const address = e.target.address.value;
       const description = e.target.description.value;
@@ -39,10 +39,7 @@ const AddRestaurant = () => {
       const owner = decode.id;
       const schedule = e.target.schedule.value;
       const capacityOnTable = e.target.capacityOnTable.value;
-      const logo = e.target.logo.value;
-      const preview = e.target.preview.value;
-      console.log(decode)
-      setRestaurant({
+      let restaurant = {
           name,
           address,
           description,
@@ -51,9 +48,7 @@ const AddRestaurant = () => {
           owner,
           schedule,
           capacityOnTable,
-          //logo,
-          //preview
-      })
+      }
 
 
       try {
@@ -119,21 +114,6 @@ const AddRestaurant = () => {
                       name="capacityOnTable"
                       required/>
               </p>
-              <p>
-                  <label>Logo:</label>
-                  <input
-                      type="logo"
-                      name="logo"
-                  />
-              </p>
-              <p>
-                  <label>Preview:</label>
-                  <input
-                      type="preview"
-                      name="preview"
-                  />
-              </p>
-
                   <div className='btn-container'>
                       <button type='submit'>Добавить ресторан</button>
                   </div>
