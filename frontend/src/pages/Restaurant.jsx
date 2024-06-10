@@ -38,6 +38,14 @@ function Restaurant()  {
     const [tags, setTags] = useState({});
     const [active, setActive] = useState(false);
 
+    const [phone, setPhone] = useState("");
+    const [site, setSite] = useState("");
+    const [description, setDescription] = useState("");
+    const [schedule, setSchedule] = useState("");
+    const [compound, setCompound] = useState(5);
+
+    const [isFavourite, setIsFavourite] = useState(false);
+
     const getMenus = async () => {
         const response = await api.get("/restaurant/" + restaurantId + "/menu/");
         setResponse(response.data.response);
@@ -51,6 +59,11 @@ function Restaurant()  {
 
         const name = e.target.name.value;
         const address = e.target.address.value;
+        const phone = e.target.phone.value;
+        const site = e.target.site.value;
+        const schedule = e.target.schedule.value;
+        const description = e.target.description.value;
+        const compound = e.target.compound.value;
 
         const getRestaurants = async () => {
             if (decode.user_id !== restaurant.owner) {
@@ -59,12 +72,22 @@ function Restaurant()  {
             const response = await api.patch("/restaurant/" + restaurantId + "/",
                 {
                     name: name,
-                    address: address
+                    address: address,
+                    phone: phone,
+                    site: site,
+                    schedule: schedule,
+                    description: description,
+                    capacityOnTable: compound
                 });
             setName(response.data.name);
             setOwner(response.data.owner);
             setAddress(response.data.address);
             setResponse(response.data.response);
+            setPhone(response.data.phone);
+            setSite(response.data.site);
+            setSchedule(response.data.schedule);
+            setDescription(response.data.description);
+            setCompound(response.data.capacityOnTable);
             setRestaurant(response.data);
             setLoading(false);
         };
@@ -84,6 +107,11 @@ function Restaurant()  {
             setAddress(response.data.address);
             setResponse(response.data.response);
             setRestaurant(response.data);
+            setPhone(response.data.phone);
+            setSite(response.data.site);
+            setSchedule(response.data.schedule);
+            setDescription(response.data.description);
+            setCompound(response.data.capacityOnTable);
             if (response.data.preview) {
                 setAvatarURL(response.data.preview)
             }
@@ -111,6 +139,16 @@ function Restaurant()  {
              setResponse(error);
 
 
+        });
+
+        const getFavourite = async () => {
+            const response = await api.get("/user/" + decode.user_id + "/favorite/" + restaurantId + "/");
+            setIsFavourite(true);
+        };
+
+        getFavourite().catch((error) => {
+             console.log(error.response.data);
+             setIsFavourite(false);
         });
 
         setLoading(false);
@@ -160,6 +198,38 @@ function Restaurant()  {
     fileUploadRef.current.click();
   }
 
+  const handleFavourite = () => {
+        if (!isFavourite) {
+            const postFavourite = async () => {
+                const response = await api.post("/user/" + decode.user_id + "/favorite/", {
+                    restaurant: restaurantId
+                });
+                setIsFavourite(true);
+            };
+
+        postFavourite().catch((error) => {
+             console.log(error.response.data);
+             setNotification(error.response.data);
+        });
+        }
+
+  }
+
+    const handleFavouriteDelete = () => {
+        if (isFavourite) {
+            const postFavourite = async () => {
+                const response = await api.delete("/user/" + decode.user_id + "/favorite/" + restaurantId + "/");
+                setIsFavourite(false);
+            };
+
+        postFavourite().catch((error) => {
+             console.log(error.response.data);
+             setNotification(error.response.data);
+        });
+        }
+
+  }
+
   const uploadImageDisplay = async () => {
     try {
       const uploadedFile = fileUploadRef.current.files[0];
@@ -195,9 +265,15 @@ function Restaurant()  {
                     <button className='booking-open-btn' onClick={(e) => handleBookingOpen(e)}>Забронировать</button>
                 </p>
                 {notification}
+                {!isFavourite && <p>
+                    <button onClick={handleFavourite}>Добавить в избранное</button>
+                </p>}
+                {isFavourite && <p>
+                    <button onClick={handleFavouriteDelete}>Удалить из избранного</button>
+                </p>}
                 <p>name: {restaurant.name}</p>
                 <p>address: {restaurant.address}</p>
-                <p>rating: {restaurant.rating}{!restaurant.rating && <>null</>}</p>
+                <p>rating: {(Math.round(restaurant.rating * 100) / 100).toFixed(2)}{!restaurant.rating && <>null</>}</p>
                 <h3>Тэги:</h3>
                 <ul>
                     {tags && Object.entries(tags).map((tagGroup) => (
@@ -233,23 +309,55 @@ function Restaurant()  {
                     <input type="file" id="file" ref={fileUploadRef} onChange={uploadImageDisplay} hidden/>
                 </form>
                 <form onSubmit={handleSubmit}>
-                    <p><label>name: </label>
+                    <p><label>Название: </label>
                         <input value={name}
                                onChange={e => setName(e.target.value)}
                                type="name"
                                name="name"/></p>
 
-                    <p><label>address: </label>
+                    <p><label>Адрес: </label>
                         <input value={address}
                                onChange={e => setAddress(e.target.value)}
                                type="address"
                                name="address"/></p>
+
+                    <p><label>Телефон: </label>
+                        <input value={phone}
+                               onChange={e => setPhone(e.target.value)}
+                               type="phone"
+                               name="phone"/></p>
+
+                    <p><label>Сайт: </label>
+                        <input value={site}
+                               onChange={e => setSite(e.target.value)}
+                               type="site"
+                               name="site"/></p>
+
+                    <p><label>Описание: </label>
+                        <input value={description}
+                               onChange={e => setDescription(e.target.value)}
+                               type="description"
+                               name="description"/></p>
+
+                    <p><label>Расписание: </label>
+                        <input value={schedule}
+                               onChange={e => setSchedule(e.target.value)}
+                               type="schedule"
+                               name="schedule"/></p>
+
+                    <p><label>Максимальное количество мест: </label>
+                        <input value={compound}
+                               onChange={e => setCompound(e.target.value)}
+                               type="number"
+                               name="compound"/></p>
+
+
                     <p>rating: {restaurant.rating}{!restaurant.rating && <>null</>}</p>
                     <button type='submit'>Сохранить</button>
                 </form>
                 {menus.map((menu, i) => (<div key={menu.id}>
-                        <button className='menu-open-btn' onClick={(e) => handleMenuOpen(e, menu, i)}>{menu.name}</button>
-                        <button className='menu-delete-btn' onClick={(e) => handleMenuDeleteOpen(e, menu)}>удалить</button>
+                    <button className='menu-open-btn' onClick={(e) => handleMenuOpen(e, menu, i)}>{menu.name}</button>
+                    <button className='menu-delete-btn' onClick={(e) => handleMenuDeleteOpen(e, menu)}>удалить</button>
                     </div>)
                 )}
                 <button onClick={handleAddMenu}>Добавить меню</button>

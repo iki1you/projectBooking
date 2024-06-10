@@ -17,28 +17,27 @@ const Login = () => {
 
   return (
     <div className='login'>
-      <h1>Login</h1>
-      <p>Sign Into Your Account</p>
+      <h1>Войти</h1>
 
       <form onSubmit={handleSubmit}>
         
-        <label>Email:</label>
+        <label>Электронная почта:</label>
         <input 
           type="email" 
           name="email"
           required />
 
-        <label>Password:</label>
+        <label>Пароль:</label>
         <input 
           type="password" 
           name="password"
           required />
 
         <div className='btn-container'>
-          <button type='submit'>Login</button>
+          <button type='submit'>Войти</button>
         </div>
-        <span>Don't Have an Account; 
-          <Link to="/register">Register</Link>
+        <span>;
+          <Link to="/register">Регистрация</Link>
         </span>
 
       </form>

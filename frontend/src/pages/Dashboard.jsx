@@ -19,15 +19,20 @@ const Dashboard = () => {
   const decode = jwtDecode(token);
   // console.log(decode)
   let user_id = decode.user_id;
-  let username = decode.username;
   let email = decode.email;
-  let full_name = decode.full_name;
+
+  const [fullName, setFullName] = useState(decode.fullName);
+  const [birthDate, setBirthDate] = useState(decode.birth_date);
+  const [phoneNumber, setPhoneNumber] = useState(decode.phone_number);
   
 
   useEffect(() => {
       const getAvatar = async () => {
         const response = await api.get("/user/" + user_id + "/");
         setResponse(response.data.response);
+        setFullName(response.data.full_name);
+        setBirthDate(response.data.birth_date);
+        setPhoneNumber(response.data.phone_number);
 
         if (response.data.avatar) {
             setAvatarURL(response.data.avatar);
@@ -66,6 +71,22 @@ const Dashboard = () => {
       setAvatarURL(DefaultImage);
     }
   }
+
+  const handleSubmit = (e) => {
+        e.preventDefault()
+
+        const postForm = async () => {
+            const response = await api.patch("/user/" + user_id + "/", {
+                full_name: fullName,
+                birth_date: birthDate,
+                phone_number: phoneNumber
+            });
+        }
+
+        postForm().catch((error) => {
+                console.log(error);
+            });
+    }
   
 
   return (
@@ -80,18 +101,31 @@ const Dashboard = () => {
               <input type="file" id="file" ref={fileUploadRef} onChange={uploadImageDisplay} hidden/>
           </form>
 
-          <p>Welcome, {full_name}</p>
-          <span>Your Cridentials are as follows</span>
           <br/>
           <span>Email: {email}</span>
           <br/>
           <span>UserID: {user_id}</span>
           <br/>
-          <span>{response}</span>
-          <br/><br/>
-          <Link to="/">Home</Link>
+          <form onSubmit={handleSubmit}>
+              <p><label htmlFor="date">Имя: </label>
+                  <input type="name" id="name" name="name" value={fullName}
+                         onChange={e => setFullName(e.target.value)}/></p>
+
+              <p><label htmlFor="phone">Телефон: </label>
+                  <input type="phone" id="phone" name="phone" value={phoneNumber}
+                  onChange={e => setPhoneNumber(e.target.value)}/></p>
+
+              <p><label htmlFor="date">Дата рождения: </label>
+                  <input type="date" id="date" name="date" value={birthDate}
+                  onChange={e => setBirthDate(e.target.value)}/></p>
+
+              <p>Согласие на обработку данных: <input type="checkbox" required/></p>
+
+              <button type="submit">Изменить</button>
+          </form>
+          <Link to="/">Главная</Link>
           <br/>
-          <Link onClick={logoutUser}>Logout</Link>
+          <Link onClick={logoutUser}>Выйти</Link>
 
       </div>
   )

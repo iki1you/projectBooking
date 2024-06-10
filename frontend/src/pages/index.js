@@ -8,3 +8,4 @@ export {default as Home} from "./Home";
 export {default as Restaurant} from "./Restaurant";
 export {default as UserBookings} from "./UserBookings";
 export {default as RestaurantBookings} from "./RestaurantBookings";
+export {default as Favourite} from "./Favourite";

@@ -596,5 +596,12 @@ class FavoriteRestaurantViewSet(GenericViewSet):
         favourite.delete()
         return Response(serializer.data)
 
+    def retrieve(self, request, user_pk=None, pk=None):
+        queryset = FavoriteRestaurant.objects.all().filter(user=user_pk)
+        favourite = get_object_or_404(queryset, restaurant=pk)
+        serializer = self.serializer_class(favourite, context={"request": request})
+        return Response(serializer.data)
+
+
 
 # class CategoryViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, mixins.ListModelMixin, GenericViewSet)

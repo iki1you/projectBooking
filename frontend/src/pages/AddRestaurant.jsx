@@ -66,49 +66,49 @@ const AddRestaurant = () => {
       <div className='dashboard'>
           <form onSubmit={handleSubmit}>
               <p>
-                  <label>Name:</label>
+                  <label>Название:</label>
                   <input
                       type="name"
                       name="name"
                       required/>
               </p>
               <p>
-                  <label>Address:</label>
+                  <label>Адрес:</label>
                   <input
                       type="address"
                       name="address"
                       required/>
               </p>
               <p>
-                  <label>Phone:</label>
+                  <label>Телефон:</label>
                   <input
                       type="phone"
                       name="phone"
                       required/>
               </p>
               <p>
-                  <label>Site:</label>
+                  <label>Сайт:</label>
                   <input
                       type="site"
                       name="site"
                       required/>
               </p>
               <p>
-                  <label>Description:</label>
+                  <label>Описание:</label>
                   <input
                       type="description"
                       name="description"
                       required/>
               </p>
               <p>
-                  <label>Schedule:</label>
+                  <label>Расписание:</label>
                   <input
                       type="schedule"
                       name="schedule"
                       required/>
               </p>
               <p>
-                  <label>CapacityOnTable:</label>
+                  <label>Максимальное количество мест:</label>
                   <input
                       type="number"
                       name="capacityOnTable"

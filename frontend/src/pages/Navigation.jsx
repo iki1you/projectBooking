@@ -14,31 +14,33 @@ const Navigation = () => {
 
   return (
     <div className='Navigation'>
-      <h1>Бронирование ресторанов</h1>
+      <h1>Бронирование мест</h1>
 
       {user ?
           <>
             <br/>
-            <Link to="/">Home</Link>
+            <Link to="/">Главная</Link>
             <br/>
-            <Link to="/addrestaurant">Add Restaurant</Link>
+            <Link to="/addrestaurant">Добавить заведение</Link>
             <br/>
-            <Link to="/restaurants">Restaurants</Link>
+            <Link to="/restaurants">Мои заведения</Link>
             <br/>
-            <Link to="/userbookings">Bookings</Link>
+            <Link to="/userbookings">Мои брони</Link>
             <br/>
-            <Link to="/dashboard">Dashboard</Link>
+            <Link to="/favourite">Избранное</Link>
             <br/>
-            <Link onClick={logoutUser}>Logout</Link>
+            <Link to="/dashboard">Профиль</Link>
+            <br/>
+            <Link onClick={logoutUser}>Выйти</Link>
 
 
           </>
           :
           <>
             <br/>
-            <Link to="/login">Login</Link>
+            <Link to="/login">Войти</Link>
           <br />
-          <Link to="/register">Register</Link>
+          <Link to="/register">Регистрация</Link>
         </>
       }
     </div>

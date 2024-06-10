@@ -21,32 +21,32 @@ const Register = () => {
 
   return (
     <div className='register'>
-      <h1>Register</h1>
-      <p>Create a new account</p>
+      <h1>Регистрация</h1>
+      <p>Создать новый аккаунт</p>
 
       <form>
-        <label>Full Name:</label>
+        <label>Полное имя:</label>
         <input 
           type="text" 
           name="full_name"
           onChange={(e)=>setFull_name(e.target.value)}
           required />
 
-        <label>Email:</label>
+        <label>Электронная почта:</label>
         <input 
           type="email" 
           name="email"
           onChange={(e)=>setEmail(e.target.value)}
           required />
 
-        <label>Password:</label>
+        <label>Пароль:</label>
         <input 
           type="password" 
           name="password"
           onChange={(e)=>setPassword(e.target.value)}
           required />
 
-        <label>Confirm Password:</label>
+        <label>Подтвердить пароль:</label>
         <input 
           type="password" 
           name="password2"
@@ -56,7 +56,7 @@ const Register = () => {
         <div className='btn-container'>
           <button onClick={handleSubmit} type='button'>Register</button>
         </div>
-        <span>Already Have an Account; 
+        <span>Уже есть аккаунт?;
           <Link to="/login">Login</Link>
         </span>
 

@@ -45,7 +45,7 @@ class Restaurant(models.Model):
     reviews_count = models.IntegerField(default=0)
 
     site = models.CharField(max_length=255, null=True)
-    schedule = JSONField(schema=ITEMS_SCHEMA, null=True, blank=True)
+    schedule = models.CharField(max_length=255, null=True)
     capacityOnTable = models.IntegerField(default=10)
     logo = models.ImageField(upload_to='images/logo/', null=True, blank=True)
     preview = models.ImageField(upload_to='images/preview/', null=True, blank=True)
