@@ -14,3 +14,4 @@ psycopg2-binary
 PyJWT
 sqlparse
 tzdata
+django-cloudinary-storage==0.3.0

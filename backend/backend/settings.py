@@ -30,6 +30,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
+    'cloudinary',
     'accounts.apps.AccountsConfig',
     'restaraunts.apps.RestarauntsConfig',
     'rest_framework',
@@ -171,7 +173,7 @@ PASSWORD_HASHERS = [
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
-    'https://project-booking-neon.vercel.app/'
+    'https://project-booking-neon.vercel.app'
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -204,3 +206,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'accounts.User'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dwrb1ar6b',
+    'API_KEY': '196696431971493',
+    'API_SECRET': 'H89I3UBXLQmzm4LMzVL-5A5Pm3o',
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
