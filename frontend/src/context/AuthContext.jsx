@@ -1,10 +1,13 @@
 import { createContext, useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import baseURL from "../config";
+
 
 const swal = require('sweetalert2')
 
 const AuthContext = createContext();
+
 
 export default AuthContext
 
@@ -26,7 +29,7 @@ export const AuthProvider = ({ children }) => {
     const navigate = useNavigate()
 
     const loginUser = async (email, password) => {
-        let url = "http://127.0.0.1:8000/api/token/login/"
+        let url = baseURL + "api/token/login/"
         const response = await fetch(url,{
             method: "POST",
             headers: {
@@ -65,7 +68,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     const registerUser = async (full_name, email, password, password2) => {
-        let url = "http://127.0.0.1:8000/user/"
+        let url = baseURL + "user/"
         console.log(full_name, email, password, password2)
         const response = await fetch(url,{
             method: "POST",
