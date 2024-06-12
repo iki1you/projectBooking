@@ -230,7 +230,7 @@ class ReviewsSerializer(serializers.ModelSerializer):
         print(str(obj.user.avatar))
         if not obj.user.avatar:
             return ""
-        return 'http://' + self.context['request'].META['HTTP_HOST'] + '/media/' + str(obj.user.avatar)
+        return 'https://res.cloudinary.com/dwrb1ar6b/image/upload/v1/' + str(obj.user.avatar)
 
     def get_user_reviews(self, obj):
         user = User.objects.get(pk=obj.user.id)
