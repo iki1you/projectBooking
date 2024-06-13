@@ -18,7 +18,7 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = env.str("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['.vercel.app', '127.0.0.1']
 
@@ -208,9 +208,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'accounts.User'
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'dwrb1ar6b',
-    'API_KEY': '196696431971493',
-    'API_SECRET': 'H89I3UBXLQmzm4LMzVL-5A5Pm3o',
+    'CLOUD_NAME': env.str("CLOUD_NAME"),
+    'API_KEY': env.str("API_KEY"),
+    'API_SECRET': env.str("API_SECRET"),
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
